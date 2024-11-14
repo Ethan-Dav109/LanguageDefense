@@ -1,53 +1,13 @@
-#import tabula
-#import pandas as pd
-import PyPDF2
-#Use Tabula to convert the PDF into a CSV
-#tabula.convert_into("MPRAria.pdf", "MPRAria.csv", output_format="csv", pages='all')
 
-
-#Use Pandas as pd to then read the CSV made and convert to excel.
-#read_file = pd.read_csv('MPRAria.csv')
-#read_file.to_excel('MPRAria.xlsx', index=None, header=True)
-
-
-# csv.reader
-# csv.writer
-
-
-
-#import PyPDF2
-#def pdf_to_text(pdf_path, output_txt):
-#    # Open the PDF file in read-binary mode
-#    with open(pdf_path, 'rb') as pdf_file:
-#        # Create a PdfReader object instead of PdfFileReader
-#        pdf_reader = PyPDF2.PdfReader(pdf_file)
-#
-#        # Initialize an empty string to store the text
-#        text = ''
-#
-#        for page_num in range(len(pdf_reader.pages)):
-#            page = pdf_reader.pages[page_num]
-#            text += page.extract_text()
-#
-#    # Write the extracted text to a text file
-#    with open(output_txt, 'w', encoding='utf-8') as txt_file:
-#        txt_file.write(text)
-#
-#if __name__ == "__main__":
-#    pdf_path = 'MPRAria.pdf'
-#
-#    output_txt = 'MPRAria.txt'
-#
-#    pdf_to_text(pdf_path, output_txt)
-#
-#    print("PDF converted to text successfully!")
-
-
+#Import OS, Pandas, PyPDF2 for library support
 import os
+import pandas as pd
 import PyPDF2
-
+import glob
+#Folder address changes /// SSA TSA MPR
 input_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\Input'
 output_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\Output'
+excel_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\XL1'
 
 for file in os.listdir(input_folder):
     if file.endswith('.pdf'):
@@ -56,5 +16,19 @@ for file in os.listdir(input_folder):
             for page_num in range(len(pdf_reader.pages)):
                 page = pdf_reader.pages[page_num]
                 text = page.extract_text()
-                with open(os.path.join(output_folder, os.path.splitext(file)[0] + '.txt'), 'w') as txt_file:
-                    txt_file.write(text)
+
+                with open(os.path.join(output_folder, os.path.splitext(file)[0] + '.csv'), 'w') as csv_file:
+                    csv_file.write(text)
+                    print("PDF to CSV Complete")
+
+
+# Loop through all CSV files in the input folder
+for filename in os.listdir(output_folder):
+    if filename.endswith('.csv'):
+        # Read CSV file using Pandas
+        df = pd.read_csv(os.path.join(output_folder, filename))
+        
+        # Create an ExcelWriter object
+        with pd.ExcelWriter(os.path.join(excel_folder, filename.replace('.csv', '.xlsx')), engine='openpyxl') as writer:
+            # Write the DataFrame to an Excel file
+            df.to_excel(writer, index=False)
