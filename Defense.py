@@ -21,14 +21,13 @@ for file in os.listdir(input_folder):
                     csv_file.write(text)
                     print("PDF to CSV Complete")
 
+for csv_file in glob.glob(os.path.join(output_folder, '*.csv')):
+    csv_name = os.path.basename(csv_file)
+    xlsx_name = csv_name.replace('.csv', '.xlsx')
+    xlsx_path = os.path.join(excel_folder, xlsx_name)
 
-# Loop through all CSV files in the input folder
-for filename in os.listdir(output_folder):
-    if filename.endswith('.csv'):
-        # Read CSV file using Pandas
-        df = pd.read_csv(os.path.join(output_folder, filename))
-        
-        # Create an ExcelWriter object
-        with pd.ExcelWriter(os.path.join(excel_folder, filename.replace('.csv', '.xlsx')), engine='openpyxl') as writer:
-            # Write the DataFrame to an Excel file
-            df.to_excel(writer, index=False)
+    # Read the CSV file
+    df = pd.read_csv(csv_file, sep = '\A')
+
+    # Write the DataFrame to an XLSX file
+    df.to_excel(xlsx_path, index=False)
