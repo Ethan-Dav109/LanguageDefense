@@ -21,13 +21,21 @@ for file in os.listdir(input_folder):
                     csv_file.write(text)
                     print("PDF to CSV Complete")
 
+
+
+# For the CSV file located in the output folder, it will read the basename of the file and it will 
+# convert the name of each fild and replace it to an xlsx.
 for csv_file in glob.glob(os.path.join(output_folder, '*.csv')):
     csv_name = os.path.basename(csv_file)
     xlsx_name = csv_name.replace('.csv', '.xlsx')
     xlsx_path = os.path.join(excel_folder, xlsx_name)
 
-    # Read the CSV file
-    df = pd.read_csv(csv_file, sep = '\A')
+    # Pandas then reads the csv file with a separator on the data
+    # and it stores that information. There is a separator due to 
+    # the fact that pandas and dataframes reads \A as an actual
+    # line of code in the raw CSV file.
+    df = pd.read_csv(csv_file, sep = 'N\A')
 
-    # Write the DataFrame to an XLSX file
+    #The dataframe created then takes the CSV file and information
+    #and it converts it to an excel file type and path.
     df.to_excel(xlsx_path, index=False)
