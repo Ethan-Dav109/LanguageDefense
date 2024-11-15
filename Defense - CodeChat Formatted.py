@@ -1,6 +1,6 @@
-#  **Defense Language File Converter** 
+#  # **Defense Language File Converter** 
 #
-# **Code Explanation** 
+# ## **Code Explanation** 
 #  
 #  The Converter program is rather simple in what it does. First
 #  it take in PDF files from the input folder, then converts them 
@@ -8,25 +8,25 @@
 #  Finally the program then takes all the CSV files in the Output 
 #  folder and convert them into the XL1 folder as XLSX files.
 #
-# **Needed Imports for functions and libraries**
+# ## **Needed Imports for functions and libraries**
 import os
 import pandas as pd
 import PyPDF2
 import glob
 import csv
 #
-# **Folder Locations to be read from and written to**
+# ## **Folder Locations to be read from and written to**
 input_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\Input'
 output_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\Output'
 excel_folder = r'C:\Users\twine\Documents\GitHub\LanguageDefense\XL1'
 #
-# **Meat of the program begins below**
+# ## **Meat of the program begins below**
 #
 #  The For loop opens the input folder
 for file in os.listdir(input_folder):
 #   If looks for files that ends in .pdf 
     if file.endswith('.pdf'):
-#       The following With and For opens the PDF and saves the data
+#   The following With and For opens the PDF and saves the data
         with open(os.path.join(input_folder, file), 'rb') as pdf_file:
             pdf_reader = PyPDF2.PdfReader(pdf_file)
             for page_num in range(len(pdf_reader.pages)):
